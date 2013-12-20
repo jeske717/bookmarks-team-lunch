@@ -1,0 +1,28 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:0.6.3'
+	}
+}
+
+apply plugin: 'android'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+dependencies {
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+}
+
+android {
+	compileSdkVersion 15
+	buildToolsVersion "19.0"
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.8'
+}
