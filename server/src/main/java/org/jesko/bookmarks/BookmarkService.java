@@ -1,6 +1,5 @@
 package org.jesko.bookmarks;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -11,18 +10,18 @@ import javax.ws.rs.Produces;
 @Path("/bookmarks")
 public class BookmarkService {
 
-	private List<Bookmark> bookmarks = new ArrayList<>();
+	private final BookmarksModel bookmarksModel = BookmarksModel.getInstance();
 	
 	@Produces({"application/json"})
 	@GET
 	public List<Bookmark> getBookmarks() {
-		return bookmarks;
+		return bookmarksModel.getBookmarks();
 	}
 	
 	@Produces({"application/json"})
 	@PUT
 	public Bookmark addBookmark(Bookmark bookmark) {
-		bookmarks.add(bookmark);
+		bookmarksModel.add(bookmark);
 		return bookmark;
 	}
 }

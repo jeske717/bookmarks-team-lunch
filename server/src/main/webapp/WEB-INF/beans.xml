@@ -21,6 +21,4 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
     </jaxrs:providers>
   		
   </jaxrs:server>
-  		
- 
 </beans>
