@@ -6,7 +6,7 @@ import com.googlecode.androidannotations.annotations.rest.Rest;
 
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 
-@Rest(rootUrl = "http://192.168.1.109:8080/server/", converters = {MappingJacksonHttpMessageConverter.class})
+@Rest(rootUrl = "http://jeskeshouse.com/server/", converters = {MappingJacksonHttpMessageConverter.class})
 public interface BookmarksService {
 
     @Get("bookmarks")

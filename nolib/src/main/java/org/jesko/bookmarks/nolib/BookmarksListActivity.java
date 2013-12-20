@@ -30,7 +30,7 @@ import java.util.List;
 
 public class BookmarksListActivity extends ListActivity {
 
-    private static final String BOOKMARKS_SERVICE_URL = "http://192.168.1.109:8080/server/bookmarks";
+    private static final String BOOKMARKS_SERVICE_URL = "http://jeskeshouse.com/server/bookmarks";
 
     protected ListView bookmarksList;
 
