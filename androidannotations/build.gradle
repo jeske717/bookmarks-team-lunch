@@ -1,0 +1,68 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:0.6.3'
+	}
+}
+
+apply plugin: 'android'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+configurations {
+	all*.exclude group:'asm', module: 'asm', version: '3.1'
+	apt
+}
+
+android {
+	compileSdkVersion 15
+	buildToolsVersion "19.0"
+}
+
+dependencies {
+	compile 'org.roboguice:roboguice:2.0'
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+	compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
+	compile 'com.googlecode.androidannotations:androidannotations-api:2.7'
+
+	apt 'com.googlecode.androidannotations:androidannotations:2.7'
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.8'
+}
+
+def getSourceSetName(variant) {
+    return new File(variant.dirName).getName();
+}
+
+android.applicationVariants.all { variant ->
+    def aptOutputDir = project.file("build/source/apt")
+    def aptOutput = new File(aptOutputDir, variant.dirName)
+    println "****************************"
+    println "variant: ${variant.name}"
+    println "manifest:  ${variant.processResources.manifestFile}"
+    println "aptOutput:  ${aptOutput}"
+    println "****************************"
+
+    android.sourceSets[getSourceSetName(variant)].java.srcDirs += aptOutput.getPath()
+
+    variant.javaCompile.options.compilerArgs += [
+            '-processorpath', configurations.apt.getAsPath(),
+            '-AandroidManifestFile=' + variant.processResources.manifestFile,
+            '-s', aptOutput
+    ]
+
+    variant.javaCompile.source = variant.javaCompile.source.filter { p ->
+        return !p.getPath().startsWith(aptOutputDir.getPath())
+    }
+
+    variant.javaCompile.doFirst {
+        aptOutput.mkdirs()
+    }
+}
